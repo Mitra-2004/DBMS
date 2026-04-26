@@ -1,0 +1,61 @@
+mysql -u root -p
+
+CREATE DATABASE dbms_practical;
+
+CREATE TABLE Customer(
+CustID INT PRIMARY KEY,
+Name VARCHAR(50),
+Cust_Address VARCHAR(100),
+Phone_no VARCHAR(15),
+Email_ID VARCHAR(50),
+Age INT
+);
+
+CREATE TABLE Branch(
+Branch_ID INT PRIMARY KEY,
+Branch_Name VARCHAR(50),
+Address VARCHAR(100)
+);
+
+CREATE TABLE Account(
+Account_no INT PRIMARY KEY,
+Branch_ID INT,
+CustID INT,
+date_open DATE,
+Account_type VARCHAR(50),
+Balance INT,
+FOREIGN KEY (Branch_ID) REFERENCES Branch(Branch_ID),
+FOREIGN KEY (CustID) REFERENCES Customer(CustID)
+);
+
+INSERT INTO Customer VALUES
+(101,'Amit','Pune','9876543210','amit@gmail.com',30),
+(102,'Rahul','Mumbai','9876543211','rahul@gmail.com',40),
+(103,'Anita','Pune','9876543212','anita@gmail.com',35);
+
+INSERT INTO Branch VALUES
+(1,'Main Branch','Pune'),
+(2,'City Branch','Mumbai');
+
+INSERT INTO Account VALUES
+(201,1,101,'2022-01-01','Saving',60000),
+(202,2,102,'2023-02-01','Current',40000),
+(203,1,103,'2021-03-01','Saving',25000);
+
+CREATE INDEX idx_account
+ON Account(Account_no);
+
+CREATE VIEW Customer_Info AS
+SELECT *
+FROM Customer
+WHERE Age < 45;
+
+UPDATE Account
+SET date_open='2017-04-16';
+
+ALTER TABLE Branch
+MODIFY Branch_ID INT AUTO_INCREMENT;
+
+CREATE VIEW Branch_info AS
+SELECT * FROM Branch;
+
