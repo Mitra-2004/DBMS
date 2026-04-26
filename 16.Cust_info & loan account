@@ -1,0 +1,87 @@
+mysql -u root -p
+
+CREATE DATABASE dbms_practical;
+
+USE dbms_practical;
+
+
+CREATE TABLE Customer(
+CustID INT PRIMARY KEY,
+Name VARCHAR(50),
+Cust_Address VARCHAR(100),
+Phone_no VARCHAR(15),
+Email_ID VARCHAR(50),
+Age INT
+);
+
+
+CREATE TABLE Branch(
+Branch_ID INT PRIMARY KEY,
+Branch_Name VARCHAR(50),
+Address VARCHAR(100)
+);
+
+CREATE TABLE Account(
+Account_no INT PRIMARY KEY,
+Branch_ID INT,
+CustID INT,
+open_date DATE,
+Account_type VARCHAR(50),
+Balance INT,
+FOREIGN KEY (Branch_ID) REFERENCES Branch(Branch_ID),
+FOREIGN KEY (CustID) REFERENCES Customer(CustID)
+);
+
+INSERT INTO Customer VALUES
+(101,'Amit','Mumbai','9876543210','amit@gmail.com',35),
+(102,'Rahul','Delhi','9876543211','rahul@gmail.com',30),
+(103,'Anita','Bangalore','9876543212','anita@gmail.com',40);
+
+INSERT INTO Branch VALUES
+(1,'Main Branch','Pune'),
+(2,'City Branch','Mumbai');
+
+INSERT INTO Account VALUES
+(201,1,101,'2018-08-16','Saving',60000),
+(202,2,102,'2018-02-16','Loan',40000),
+(203,1,103,'2018-08-16','Saving',30000);
+
+CREATE VIEW Saving_Account AS
+SELECT c.*
+FROM Customer c
+JOIN Account a
+ON c.CustID = a.CustID
+WHERE a.Account_type='Saving'
+AND a.open_date='2018-08-16';
+
+SELECT * FROM Saving_Account;
+
+UPDATE Customer
+SET Cust_Address='Pune'
+WHERE CustID=103;
+
+CREATE VIEW Loan_Account AS
+SELECT c.*
+FROM Customer c
+JOIN Account a
+ON c.CustID = a.CustID
+WHERE a.Account_type='Loan'
+AND a.open_date='2018-02-16';
+
+CREATE INDEX idx_customer
+ON Customer(CustID);
+
+CREATE INDEX idx_branch
+ON Branch(Branch_ID);
+
+ALTER TABLE Customer
+MODIFY CustID INT AUTO_INCREMENT;
+
+
+CREATE VIEW Cust_info AS
+SELECT * FROM Branch;
+
+
+SELECT * FROM Cust_info;
+
+
