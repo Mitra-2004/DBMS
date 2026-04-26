@@ -1,0 +1,88 @@
+mysql -u root -p
+
+CREATE DATABASE dbms_practical;
+
+USE dbms_practical;
+
+CREATE TABLE Customer(
+CustID INT PRIMARY KEY,
+Name VARCHAR(50),
+Cust_Address VARCHAR(100),
+Phone_no VARCHAR(15),
+Age INT
+);
+
+CREATE TABLE Branch(
+Branch_ID INT PRIMARY KEY,
+Branch_Name VARCHAR(50),
+Address VARCHAR(100)
+);
+
+CREATE TABLE Account(
+Account_no INT PRIMARY KEY,
+Branch_ID INT,
+CustID INT,
+date_open DATE,
+Account_type VARCHAR(50),
+Balance INT
+);
+
+INSERT INTO Customer VALUES
+(101,'Amit','Pune','9876543210',40),
+(102,'Rahul','Mumbai','9876543211',30),
+(103,'Anita','Pune','9876543212',38),
+(104,'Riya','Delhi','9876543213',28);
+
+INSERT INTO Branch VALUES
+(1,'Main Branch','Pune'),
+(2,'City Branch','Mumbai');
+
+INSERT INTO Account VALUES
+(201,1,101,'2022-01-01','Saving Account',60000),
+(202,2,102,'2023-02-01','Current Account',40000),
+(203,1,103,'2021-03-01','Saving Account',20000),
+(204,2,104,'2020-04-01','Saving Account',15000);
+
+ALTER TABLE Customer
+ADD Email_Address VARCHAR(50);
+
+ALTER TABLE Customer
+CHANGE Email_Address Email_ID VARCHAR(50);
+
+SELECT c.*
+FROM Customer c
+JOIN Account a
+ON c.CustID = a.CustID
+WHERE a.Balance =
+(
+SELECT MAX(Balance)
+FROM Account
+);
+
+SELECT c.*
+FROM Customer c
+JOIN Account a
+ON c.CustID = a.CustID
+WHERE a.Account_type='Saving Account'
+AND a.Balance =
+(
+SELECT MIN(Balance)
+FROM Account
+WHERE Account_type='Saving Account'
+);
+
+SELECT *
+FROM Customer
+WHERE Cust_Address='Pune'
+AND Age > 35;
+
+SELECT CustID, Name, Age
+FROM Customer
+ORDER BY Age ASC;
+
+SELECT c.Name, a.Branch_ID
+FROM Customer c
+JOIN Account a
+ON c.CustID = a.CustID
+GROUP BY a.Account_type, c.Name, a.Branch_ID;
+
