@@ -1,0 +1,71 @@
+CREATE DATABASE dbms_practical;
+
+
+USE dbms_practical;
+
+
+CREATE TABLE Departments(
+Department_id INT PRIMARY KEY,
+Department_name VARCHAR(50),
+Manager_id INT,
+Location_id INT
+);
+
+CREATE TABLE Locations(
+Location_id INT PRIMARY KEY,
+Street_address VARCHAR(100),
+Postal_code VARCHAR(20),
+City VARCHAR(50),
+State VARCHAR(50),
+Country_id VARCHAR(10)
+);
+
+
+CREATE TABLE Manager(
+Manager_id INT PRIMARY KEY,
+Manager_name VARCHAR(50)
+);
+
+CREATE TABLE Employee(
+Employee_id INT PRIMARY KEY,
+First_name VARCHAR(50),
+Last_name VARCHAR(50),
+Hire_date DATE,
+Salary INT,
+Job_title VARCHAR(50),
+Manager_id INT,
+Department_id INT,
+FOREIGN KEY (Manager_id) REFERENCES Manager(Manager_id),
+FOREIGN KEY (Department_id) REFERENCES Departments(Department_id)
+);
+
+INSERT INTO Departments VALUES
+(1,'IT',101,1),
+(2,'HR',102,2);
+
+INSERT INTO Manager VALUES
+(101,'Raj'),
+(102,'Amit');
+
+INSERT INTO Locations VALUES
+(1,'MG Road','411001','Pune','MH','IN'),
+(2,'Brigade Road','560001','Bangalore','KA','IN');
+
+INSERT INTO Employee VALUES
+(1,'Rahul','Sharma','2018-01-01',60000,'Developer',101,1),
+(2,'Aman','Verma','2020-05-01',40000,'HR',102,2),
+(3,'Priya','Singh','2017-03-01',70000,'Developer',101,1);
+
+SELECT First_name, Last_name, Salary
+FROM Employee
+WHERE Salary >
+      (SELECT AVG(Salary) FROM Employee)
+AND Department_id IN
+      (SELECT Department_id
+       FROM Departments
+       WHERE Department_name='IT');
+
+       SELECT First_name, Last_name, Salary
+FROM Employee
+WHERE Salary =
+      (SELECT MIN(Salary) FROM Employee);
