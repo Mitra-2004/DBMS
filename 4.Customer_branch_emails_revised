@@ -1,75 +1,71 @@
-CREATE DATABASE dbms_practical;
-
-USE dbms_practical;
-
-CREATE TABLE Customer(
-CustID INT PRIMARY KEY,
-Name VARCHAR(50),
-Cust_Address VARCHAR(100),
-Phone_no VARCHAR(15),
-Email_ID VARCHAR(50),
-Age INT
+CREATE TABLE Customer (
+    CustID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    Cust_Address VARCHAR(100),
+    Phone_no VARCHAR(15),
+    Email_Address VARCHAR(50),
+    Age INT
 );
 
-CREATE TABLE Branch(
-Branch_ID INT PRIMARY KEY,
-Branch_Name VARCHAR(50),
-Address VARCHAR(100)
+CREATE TABLE Branch (
+    Branch_ID INT PRIMARY KEY,
+    Branch_Name VARCHAR(50),
+    Address VARCHAR(100)
 );
 
-CREATE TABLE Account(
-Account_no INT PRIMARY KEY,
-Branch_ID INT,
-CustID INT,
-date_open DATE,
-Account_type VARCHAR(50),
-Balance INT
+CREATE TABLE Account (
+    Account_no INT PRIMARY KEY,
+    Branch_ID INT,
+    CustID INT,
+    date_open DATE,
+    Account_type VARCHAR(20),
+    Balance DECIMAL(10,2),
+    FOREIGN KEY (Branch_ID) REFERENCES Branch(Branch_ID),
+    FOREIGN KEY (CustID) REFERENCES Customer(CustID)
 );
 
 INSERT INTO Customer VALUES
 (101,'Amit','Pune','9876543210','amit@gmail.com',30),
-(102,'Rahul','Mumbai','9876543211','rahul@gmail.com',35),
-(103,'Anita','Pune','9876543212','anita@gmail.com',28),
-(104,'Riya','Delhi','9876543213','riya@gmail.com',40);
+(102,'Riya','Mumbai','9123456780','riya@gmail.com',40),
+(103,'Anil','Pune','9988776655','anil@gmail.com',35);
 
 INSERT INTO Branch VALUES
-(1,'Main Branch','Pune'),
-(2,'City Branch','Mumbai');
+(1,'Main','Pune'),
+(2,'City','Mumbai');
 
 INSERT INTO Account VALUES
-(201,1,101,'2022-01-01','Saving Account',60000),
-(202,2,102,'2023-02-01','Current Account',40000),
-(203,1,103,'2021-03-01','Saving Account',25000),
-(204,2,104,'2020-04-01','Saving Account',15000);
+(4001,1,101,'2017-04-16','Saving',60000),
+(4002,2,102,'2017-05-10','Current',30000),
+(4003,1,103,'2017-06-15','Saving',25000);
 
 ALTER TABLE Customer
-MODIFY Email_ID VARCHAR(20);
+MODIFY Email_Address VARCHAR(20);
 
 ALTER TABLE Customer
-MODIFY Email_ID VARCHAR(20) NOT NULL;
+MODIFY Email_Address VARCHAR(20) NOT NULL;
 
-SELECT COUNT(*) AS Total_Customers
-FROM Customer c
-JOIN Account a
-ON c.CustID = a.CustID
-WHERE Balance > 50000;
 
-SELECT AVG(Balance) AS Average_Balance
+SELECT COUNT(DISTINCT C.CustID) AS Total_Customers
+FROM Customer C
+JOIN Account A ON C.CustID = A.CustID
+WHERE A.Balance > 50000;
+
+SELECT AVG(Balance) AS Avg_Balance
 FROM Account
-WHERE Account_type='Saving Account';
+WHERE Account_type = 'Saving';
 
 SELECT *
 FROM Customer
-WHERE Cust_Address='Pune'
+WHERE Cust_Address = 'Pune'
 OR Name LIKE 'A%';
 
 CREATE TABLE Saving_Account AS
 SELECT Account_no, Branch_ID, CustID, date_open, Balance
-FROM Account;
+FROM Account
+WHERE Account_type = 'Saving';
 
-SELECT c.*, a.Balance
-FROM Customer c
-JOIN Account a
-ON c.CustID = a.CustID
-WHERE a.Balance >= 20000
-ORDER BY c.Age;
+SELECT C.*, A.Balance
+FROM Customer C
+JOIN Account A ON C.CustID = A.CustID
+WHERE A.Balance >= 20000
+ORDER BY C.Age ASC;
