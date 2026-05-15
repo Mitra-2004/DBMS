@@ -1,0 +1,336 @@
+What is PL/SQL?
+
+Answer:
+
+PL/SQL stands for Procedural Language/SQL.
+It is Oracle’s programming extension of SQL.
+
+PL/SQL adds:
+Feature	Meaning
+Procedure	reusable block
+Function	returns value
+Trigger	automatic execution
+Cursor	row-by-row processing
+Exception	error handling
+🔵 PROCEDURE PROGRAM
+CREATE EMPLOYEE TABLE
+CREATE TABLE Employee (
+    emp_id NUMBER PRIMARY KEY,
+    dept_id NUMBER,
+    emp_name VARCHAR2(50),
+    DoJ DATE,
+    salary NUMBER,
+    commission NUMBER,
+    job_title VARCHAR2(50)
+);
+NUMBER
+stores numeric values
+VARCHAR2
+stores text/string in Oracle
+DoJ
+Date of Joining
+Verify
+DESC Employee;
+🔵 STORED PROCEDURE
+CREATE OR REPLACE PROCEDURE calc_commission IS
+CREATE OR REPLACE
+create new procedure
+or replace old one
+PROCEDURE
+reusable PL/SQL block
+calc_commission
+
+Procedure name.
+
+IS
+start declaration section
+VARIABLE DECLARATION
+v_exp NUMBER;
+Meaning
+
+Creates variable:
+
+v_exp
+
+to store experience years.
+
+BEGIN
+start executable section
+FOR LOOP
+FOR rec IN (SELECT * FROM Employee) LOOP
+VERY IMPORTANT
+rec
+temporary record variable
+Meaning
+
+Loop through every employee row.
+
+SELECT * FROM Employee
+
+Fetch all employee rows.
+
+LOOP
+repeat statements
+EXPERIENCE CALCULATION
+v_exp := FLOOR(MONTHS_BETWEEN(SYSDATE, rec.DoJ) / 12);
+:=
+assignment operator in PL/SQL
+MONTHS_BETWEEN
+find difference between dates in months
+SYSDATE
+current system date
+rec.DoJ
+
+Employee joining date.
+
+/12
+
+Convert months into years.
+
+FLOOR
+remove decimal part
+Example
+10.7 → 10
+IF CONDITION
+IF rec.salary > 10000 THEN
+Meaning
+
+If salary greater than 10000.
+
+UPDATE QUERY
+UPDATE Employee
+SET commission = rec.salary * 0.004
+WHERE emp_id = rec.emp_id;
+SET
+
+Assign value.
+
+0.004
+0.4%
+WHERE emp_id = rec.emp_id
+
+Update current employee only.
+
+ELSIF
+else if condition
+COMMIT
+COMMIT;
+Meaning
+save changes permanently
+END LOOP
+
+Ends loop.
+
+END;
+
+Ends procedure.
+
+/
+execute PL/SQL block
+TO RUN PROCEDURE
+EXEC calc_commission;
+🔵 FUNCTION PROGRAM
+CREATE FUNCTION
+CREATE OR REPLACE FUNCTION get_manager_name(p_dept_id NUMBER)
+RETURN VARCHAR2
+FUNCTION
+PL/SQL block that returns value
+p_dept_id
+
+Input parameter.
+
+RETURN VARCHAR2
+
+Function returns string value.
+
+VARIABLE
+v_name VARCHAR2(50);
+
+Stores manager name.
+
+SELECT INTO
+SELECT m.manager_name INTO v_name
+VERY IMPORTANT
+INTO
+store query result into variable
+JOIN
+JOIN Department d
+ON m.manager_id = d.manager_id
+Meaning
+
+Connect Manager and Department tables.
+
+RETURN
+RETURN v_name;
+Meaning
+
+Send value back.
+
+EXCEPTION
+error handling section
+NO_DATA_FOUND
+no matching row found
+FUNCTION EXECUTION
+SELECT get_manager_name(1) FROM dual;
+dual
+
+Dummy Oracle table.
+
+🔵 UNNAMED BLOCK PROGRAM
+DECLARE
+DECLARE
+Meaning
+
+Start variable declaration section.
+
+VARIABLES
+v_emp_id NUMBER;
+v_salary NUMBER;
+Stores temporary values.
+USER DEFINED EXCEPTION
+ex_invalid_emp EXCEPTION;
+Meaning
+
+Custom error.
+
+ACCEPT INPUT
+v_emp_id := &emp_id;
+&emp_id
+accept user input
+SELECT INTO
+SELECT salary, DoJ INTO v_salary, v_doj
+
+Store salary and joining date into variables.
+
+EXPERIENCE
+
+Same MONTHS_BETWEEN logic.
+
+SALARY INCREMENT
+v_new_salary := v_salary + (v_salary * 0.20);
+Meaning
+
+Increase salary by 20%.
+
+INSERT
+INSERT INTO Salary_Increment VALUES (v_emp_id, v_new_salary);
+DBMS_OUTPUT.PUT_LINE
+DBMS_OUTPUT.PUT_LINE('New Salary: ' || v_new_salary);
+VERY IMPORTANT
+PUT_LINE
+display output message
+||
+string concatenation operator
+EXCEPTION HANDLING
+WHEN NO_DATA_FOUND THEN
+Meaning
+
+Handle missing employee error.
+
+OTHERS
+handle all other errors
+🔵 TRIGGER PROGRAM
+What is Trigger?
+
+Answer:
+
+Trigger is a PL/SQL block that automatically executes when an event occurs.
+
+CREATE TRIGGER
+CREATE OR REPLACE TRIGGER prevent_salary_decrease
+BEFORE UPDATE OF salary
+trigger runs before salary update
+FOR EACH ROW
+execute for every affected row
+:NEW
+new value
+:OLD
+old value
+CONDITION
+IF :NEW.salary < :OLD.salary THEN
+Meaning
+
+Prevent salary reduction.
+
+RAISE_APPLICATION_ERROR
+RAISE_APPLICATION_ERROR(-20001,'Salary cannot be decreased');
+Meaning
+
+Display custom Oracle error.
+
+JOB CHANGE TRIGGER
+AFTER UPDATE OF job_title
+Meaning
+
+Runs after job title changes.
+
+INSERT INTO job_history
+
+Stores old employee details.
+
+SYSDATE
+
+Stores current date as end date.
+
+VERIFY
+SELECT * FROM job_history;
+🔵 MONGODB AGGREGATION & INDEXING
+aggregate()
+perform calculations/grouping
+$group
+group similar documents
+_id:"$Director"
+
+Group by Director.
+
+$sum:1
+count documents
+Why 1?
+
+Each movie contributes:
+
+1 count
+$max
+find highest value
+$sort
+sort documents
+1 in sort
+ascending order
+createIndex()
+improve searching speed
+Compound Index
+{ Movie_Name:1, Director:1 }
+Meaning
+
+Index on multiple fields.
+
+dropIndex()
+remove index
+⭐ MOST IMPORTANT VIVA DEFINITIONS
+Procedure
+
+Procedure is a reusable PL/SQL block that performs task but does not return value.
+
+Function
+
+Function is a PL/SQL block that returns a value.
+
+Trigger
+
+Trigger automatically executes when database event occurs.
+
+Exception
+
+Exception handles runtime errors.
+
+Cursor
+
+Cursor processes rows one by one.
+
+Aggregate
+
+Aggregation performs calculations on grouped documents.
+
+Index
+
+Index improves searching performance
