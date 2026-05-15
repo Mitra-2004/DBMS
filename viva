@@ -1,0 +1,108 @@
+DBMS Viva + Practical Master Notes (SPPU SE 2024 Pattern)
+1. What is DBMS?
+DBMS (Database Management System) is software used to create, store, manage and retrieve data efficiently.
+2. What is Database?
+A database is an organized collection of related data stored electronically.
+3. What is Table?
+A table is a collection of rows and columns used to store data.
+4. What is Tuple?
+A tuple is a single row or record in a table.
+5. What is Attribute?
+An attribute is a column in a table.
+6. What is SQL?
+SQL is Structured Query Language used to manage databases.
+7. What is DDL?
+DDL defines database structure. Commands: CREATE, ALTER, DROP.
+8. What is DML?
+DML modifies data. Commands: INSERT, UPDATE, DELETE.
+9. What is DCL?
+DCL controls permissions. Commands: GRANT, REVOKE.
+10. What is TCL?
+TCL manages transactions. Commands: COMMIT, ROLLBACK.
+11. CRUD Operations
+Create, Read, Update, Delete.
+12. Primary Key
+Uniquely identifies each record in a table.
+13. Foreign Key
+Connects two tables using primary key reference.
+14. Super Key
+Uniquely identifies records.
+15. Candidate Key
+Minimal super key.
+16. Alternate Key
+Candidate key not selected as primary key.
+17. What is JOIN?
+Combines rows from multiple tables.
+18. INNER JOIN
+Returns matching rows from both tables.
+19. LEFT JOIN
+Returns all rows from left table and matching rows from right table.
+20. RIGHT JOIN
+Returns all rows from right table and matching rows from left table.
+21. FULL JOIN
+Returns all rows from both tables.
+22. Normalization
+Organizing data to reduce redundancy.
+23. 1NF
+All attributes contain atomic values.
+24. 2NF
+No partial dependency.
+25. 3NF
+No transitive dependency.
+26. View
+A virtual table created from SQL query.
+27. Transaction
+Sequence of operations treated as single unit.
+28. ACID Properties
+Atomicity, Consistency, Isolation, Durability.
+29. Cursor
+Processes rows one by one.
+30. Types of Cursor
+Implicit Cursor and Explicit Cursor.
+31. Parameterized Cursor
+Cursor accepting parameters.
+32. Trigger
+Automatically executes on INSERT/UPDATE/DELETE.
+33. Types of Trigger
+BEFORE Trigger and AFTER Trigger.
+34. OLD vs NEW
+OLD = previous value, NEW = updated value.
+35. Stored Procedure
+Precompiled SQL code stored in database.
+36. Function
+Stored program returning value.
+37. Procedure vs Function
+Procedure may not return value; function always returns value.
+38. DELETE vs DROP
+DELETE removes rows; DROP removes table.
+39. Aggregation
+Combines multiple values into one result.
+40. Aggregation Functions
+COUNT, SUM, AVG, MAX, MIN.
+41. Indexing
+Improves searching speed.
+42. Aggregation vs Indexing
+Aggregation summarizes data; indexing speeds searching.
+43. insertOne vs insertMany
+insertOne inserts single document; insertMany inserts multiple documents.
+44. DBMS vs RDBMS
+DBMS stores data generally; RDBMS stores relational tabular data.
+45. File in DBMS
+Collection of related records stored together.
+Important Syntax Examples
+Operation Syntax
+Create Table CREATE TABLE student(id INT, name VARCHAR(20));
+Insert INSERT INTO student VALUES(1,'Ved');
+Select SELECT * FROM student;
+Update UPDATE student SET marks=90 WHERE id=1;
+Delete DELETE FROM student WHERE id=1;
+Drop DROP TABLE student;
+Create Index CREATE INDEX idx_name ON students(name);
+MongoDB insertOne db.users.insertOne({name:'Ved'})
+MongoDB insertMany db.users.insertMany([{name:'Ved'}])
+MongoDB find db.users.find()
+Platforms to Run Codes
+Technology Where to Run
+MySQL Terminal / MySQL Shell
+MongoDB mongosh
+PL/SQL Oracle SQL Developer
